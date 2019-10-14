@@ -1,5 +1,6 @@
 package com.island.spark.mllib;
 
+import org.apache.log4j.Logger;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.JavaRDD;
@@ -15,6 +16,7 @@ import java.net.URL;
 public class SparkKMeans {
     public static void main(String[] args) throws MalformedURLException {
 
+        final Logger logger = Logger.getLogger(SparkKMeans.class);
         /*
         * Parameter 1 :  num of clusters
         * Parameter 2 :  num of iterations
@@ -53,16 +55,18 @@ public class SparkKMeans {
 
         KMeansModel clusters = KMeans.train(parsedData.rdd(), numClusters, numIterations);
 
-        System.out.println("Cluster centers:");
+        logger.info("Cluster centers:");
+        StringBuilder clusterCenters = new StringBuilder() ;
         for (Vector center: clusters.clusterCenters()) {
-            System.out.println(" " + center);
+            clusterCenters.append(" ").append(center);
         }
+        logger.info(clusterCenters.toString());
         double cost = clusters.computeCost(parsedData.rdd());
-        System.out.println("Cost: " + cost);
+        logger.info("Cost: " + cost);
 
         // Evaluate clustering by computing Within Set Sum of Squared Errors
         double WSSSE = clusters.computeCost(parsedData.rdd());
-        System.out.println("Within Set Sum of Squared Errors = " + WSSSE);
+        logger.info("Within Set Sum of Squared Errors = " + WSSSE);
 
         /*
         String buildPath = "build/com/island/spark/mllib/KMeansModel";

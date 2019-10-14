@@ -1,6 +1,8 @@
 plugins {
     id 'java'
     id 'maven'
+    id 'com.github.johnrengelman.shadow' version '5.1.0'
+    id 'application'
 }
 
 group 'com.island.spark'
@@ -20,30 +22,25 @@ repositories {
 }
 
 dependencies {
-//    compile 'com.github.scopt:scopt_2.11:3.7.0'
-//    testCompile 'org.scalacheck:scalacheck_2.11:1.13.5'
-//    testCompile 'org.scalatest:scalatest_2.11:3.0.3'
     testCompile 'junit:junit:4.12'
     compile 'org.apache.spark:spark-core_2.11:2.4.4'
     compile 'org.apache.spark:spark-streaming_2.11:2.4.4'
     compile 'org.apache.spark:spark-mllib_2.11:2.4.4'
-//    compileOnly 'org.apache.spark:spark-hive_2.11:2.4.4'
     compile 'org.apache.spark:spark-graphx_2.11:2.4.4'
-//    compileOnly 'org.apache.spark:spark-streaming-kafka-0-10_2.11:2.4.4'
-//    compileOnly 'org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.4'
     compile 'org.apache.commons:commons-math3:3.4.1'
     compile 'org.scala-lang:scala-library:2.11.12'
-//    compileOnly 'com.twitter:parquet-hadoop-bundle:1.6.0'
-}
+    compile 'log4j:log4j:1.2.17'
+    compile 'org.apache.logging.log4j:log4j-api:2.12.1'
 
-//configurations.all {
-//    exclude(group: 'org.jboss.netty')
-//    exclude(group: 'org.codehaus.groovy')
-//    exclude(group: '*', module: '*_2.10')
-//}
-//
-//artifacts.archives(tasks.packageTests)
+}
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
+}
+
+mainClassName = 'com.island.spark.mllib.SparkKMeans'
+
+// Minimizing an shadow JAR
+shadowJar {
+    minimize()
 }
