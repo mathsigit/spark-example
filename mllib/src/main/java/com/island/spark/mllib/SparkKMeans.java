@@ -55,11 +55,12 @@ public class SparkKMeans {
 
         KMeansModel clusters = KMeans.train(parsedData.rdd(), numClusters, numIterations);
 
-        logger.info("Cluster centers:");
-        StringBuilder clusterCenters = new StringBuilder() ;
+        StringBuilder clusterCenters = new StringBuilder();
+        clusterCenters.append("=========Cluster Centers=========");
         for (Vector center: clusters.clusterCenters()) {
             clusterCenters.append(" ").append(center);
         }
+        clusterCenters.append("=========");
         logger.info(clusterCenters.toString());
         double cost = clusters.computeCost(parsedData.rdd());
         logger.info("Cost: " + cost);
@@ -78,5 +79,7 @@ public class SparkKMeans {
         );
         */
         jsc.stop();
+
+        logger.info("=========Application Finish=========");
     }
 }
