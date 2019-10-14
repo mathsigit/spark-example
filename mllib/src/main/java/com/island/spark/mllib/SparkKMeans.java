@@ -7,16 +7,13 @@ import org.apache.spark.mllib.clustering.KMeans;
 import org.apache.spark.mllib.clustering.KMeansModel;
 import org.apache.spark.mllib.linalg.Vector;
 import org.apache.spark.mllib.linalg.Vectors;
+
+import java.io.File;
+import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class SparkKMeans {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws MalformedURLException {
 
         /*
         * Parameter 1 :  num of clusters
@@ -32,18 +29,19 @@ public class SparkKMeans {
             return;
         }
 
-        Arrays.stream(args)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList())
-                .size()
-
+        // Cluster the data for KMeans
+        int numClusters = Integer.parseInt(args[0]);
+        int numIterations = Integer.parseInt(args[1]);
+        // Load data
+        URL sourceURL = args[2].trim().isEmpty()
+                ? SparkKMeans.class.getClassLoader().getResource("data/mllib/kmeans_data.txt")
+                : new File(args[2]).toURI().toURL();
 
         SparkConf conf = new SparkConf().setAppName("JavaKMeansExample").setMaster("local[*]");
         JavaSparkContext jsc = new JavaSparkContext(conf);
 
-        // Load and parse data
-        URL url = SparkKMeans.class.getClassLoader().getResource("data/mllib/kmeans_data.txt");
-        JavaRDD<Vector> parsedData = jsc.textFile(url.toString()).map(s -> {
+        //Parse data
+        JavaRDD<Vector> parsedData = jsc.textFile(sourceURL.toString()).map(s -> {
             String[] sarray = s.split(" ");
             double[] values = new double[sarray.length];
             for (int i = 0; i < sarray.length; i++) {
@@ -53,9 +51,6 @@ public class SparkKMeans {
         });
         parsedData.cache();
 
-        // Cluster the data into two classes using KMeans
-        int numClusters = 2;
-        int numIterations = 20;
         KMeansModel clusters = KMeans.train(parsedData.rdd(), numClusters, numIterations);
 
         System.out.println("Cluster centers:");
@@ -69,6 +64,7 @@ public class SparkKMeans {
         double WSSSE = clusters.computeCost(parsedData.rdd());
         System.out.println("Within Set Sum of Squared Errors = " + WSSSE);
 
+        /*
         String buildPath = "build/com/island/spark/mllib/KMeansModel";
         // Save and load model
         clusters.save(jsc.sc(), buildPath);
@@ -76,7 +72,7 @@ public class SparkKMeans {
                 jsc.sc(),
                 buildPath
         );
-
+        */
         jsc.stop();
     }
 }
