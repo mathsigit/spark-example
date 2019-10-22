@@ -51,7 +51,7 @@ gradlew.bat clean shadowJar
  * Creating DIR `C:\BigData\`
  * [Download Spark 2.4.4](https://www.apache.org/dyn/closer.lua/spark/spark-2.4.4/spark-2.4.4-bin-hadoop2.7.tgz) and unzip file to `C:\BigData\`, as well as you would have the path of spark as: 
    `C:\BigData\spark-2.4.4-bin-hadoop2.7`
- * Creating directory `hadoop-2.7.1` under `C:\BigData\` and copying `windows\winutils.exe` to `C:\BigData\hadoop-2.7.1`
+ * Creating directory `hadoop-2.7.1\bin` under `C:\BigData\` and copying `windows\winutils.exe` to `C:\BigData\hadoop-2.7.1\bin`
  * Setting `Environment Variables` for windows as below:
    * Add JAVA_HOME
    * Add SPARK_HOME
