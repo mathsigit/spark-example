@@ -59,12 +59,15 @@ gradlew.bat clean shadowJar
    * Edit PATH and add `%HADOOP_HOME%\bin` as well as `%SPARK_HOME%\bin`
    
    SPARK_HOME
+   
    ![SPARK_HOME](images/SPARK_HOME.png)
    
    HADOOP_HOME
+   
    ![HADOOP_HOME](images/HADOOP_HOME.png)
    
    PATH
+   
    ![PATH](images/PATH.png)
    
  * Create `/tmp/hive` directory under `C:\`, and set the permissions by following commands:
