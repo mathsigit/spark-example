@@ -1,0 +1,21 @@
+apply plugin: "java"
+
+allprojects {
+
+    repositories {
+        mavenCentral()
+        maven {
+            url = 'https://repo.maven.apache.org/maven2'
+        }
+
+        maven {
+            url = 'https://repository.apache.org/snapshots'
+        }
+        tasks.withType(JavaCompile) {
+            options.encoding = 'UTF-8'
+        }
+    }
+    group 'com.island.spark'
+    version '0.0.1-SNAPSHOT'
+    sourceCompatibility=1.8
+}

@@ -5,22 +5,6 @@ plugins {
     id 'application'
 }
 
-group 'com.island.spark'
-version '0.0.1-SNAPSHOT'
-
-sourceCompatibility = '1.8'
-
-repositories {
-    mavenLocal()
-    maven {
-        url = 'https://repo.maven.apache.org/maven2'
-    }
-
-    maven {
-        url = 'https://repository.apache.org/snapshots'
-    }
-}
-
 dependencies {
     testCompile 'junit:junit:4.12'
     compile 'org.apache.spark:spark-core_2.11:2.4.4'
@@ -32,10 +16,6 @@ dependencies {
     compile 'log4j:log4j:1.2.17'
     compile 'org.apache.logging.log4j:log4j-api:2.12.1'
 
-}
-
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
 }
 
 mainClassName = 'com.island.spark.mllib.SparkKMeans'
